@@ -1,6 +1,7 @@
 import java.util
 import se.nicklasgavelin.bluetooth.Bluetooth.EVENT
 import se.nicklasgavelin.bluetooth.{BluetoothDiscoveryListener, BluetoothDevice, Bluetooth}
+import se.nicklasgavelin.sphero.command.RollCommand
 import se.nicklasgavelin.sphero.exception.{RobotBluetoothException, InvalidRobotAddressException}
 import se.nicklasgavelin.sphero.Robot
 
@@ -53,18 +54,23 @@ class SpheroController extends Sphero {
     bt.discover()
   }
 
-  // e.g.
-  def roll(heading: Int) {
-    robot.roll(0, 0)
+  def roll(velocity: Float, heading: Float) {
+    robot.roll(heading, velocity)
   }
 
-  def roll(velocity: Float, heading: Float) {}
+  def stop() {
+    robot.stopMotors()
+  }
 
-  def stop() {}
+  def beginCalibration() {
 
-  def beginCalibration() {}
+  }
 
-  def acceptCalibration() {}
+  def acceptCalibration() {
 
-  def setColor(r: Int, g: Int, b: Int) {}
+  }
+
+  def setColor(r: Int, g: Int, b: Int) {
+
+  }
 }
