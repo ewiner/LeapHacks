@@ -4,4 +4,5 @@ trait Sphero {
   def beginCalibration()
   def acceptCalibration()
   def setColor(r:Int, g:Int, b:Int)
+  def disconnect()
 }

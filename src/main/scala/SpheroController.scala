@@ -5,7 +5,7 @@ import se.nicklasgavelin.bluetooth.{BluetoothDiscoveryListener, BluetoothDevice,
 import se.nicklasgavelin.sphero.exception.{RobotBluetoothException, InvalidRobotAddressException}
 import se.nicklasgavelin.sphero.Robot
 
-class SpheroController(robot: Robot) extends Sphero {
+class SpheroController(val robot: Robot) extends Sphero {
 
   def roll(velocity: Float, heading: Float) {
     robot.roll(heading, velocity)
@@ -28,6 +28,10 @@ class SpheroController(robot: Robot) extends Sphero {
   def setColor(r: Int, g: Int, b: Int) {
     robot.setRGBLEDColor(r, g, b)
   }
+
+  def disconnect() {
+    robot.disconnect()
+  }
 }
 
 object SpheroController {
@@ -36,8 +40,7 @@ object SpheroController {
     val holder = new RobotHolder
     val bt = new Bluetooth(new RobotBtListener(holder), Bluetooth.SERIAL_COM)
     bt.discover()
-    val robot = holder.awaitRobot()
-    new SpheroController(robot)
+    holder.awaitRobot().map(new SpheroController(_))
   }
 
   private class RobotHolder {
@@ -46,18 +49,27 @@ object SpheroController {
 
     def awaitRobot() = {
       foundSignal.await()
-      robot.getOrElse(throw new IllegalStateException("Didn't find robot in the robot holder!"))
+      robot
     }
 
     def storeRobot(r: Robot) {
       robot = Some(r)
       foundSignal.countDown()
     }
+
+    def hasRobot = robot.isDefined
+
+    def noRobot(err: String) {
+      println(err)
+      foundSignal.countDown()
+    }
   }
 
   private class RobotBtListener(holder: RobotHolder) extends BluetoothDiscoveryListener {
     def deviceSearchCompleted(devices: util.Collection[BluetoothDevice]) {
-      println("Bluetooth search completed.")
+      if (!holder.hasRobot) {
+        holder.noRobot("Bluetooth search completed without finding a robot.")
+      }
     }
 
     def deviceDiscovered(device: BluetoothDevice) {
@@ -67,8 +79,8 @@ object SpheroController {
       }
     }
 
-    def deviceSearchFailed(p1: EVENT) {
-      println("Error message: "+p1.getErrorMessage)
+    def deviceSearchFailed(event: EVENT) {
+      holder.noRobot(s"Search failed: ${event.getErrorCode}, ${event.getErrorMessage}")
     }
 
     def deviceSearchStarted() {
