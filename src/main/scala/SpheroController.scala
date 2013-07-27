@@ -4,10 +4,10 @@ import se.nicklasgavelin.bluetooth.{BluetoothDiscoveryListener, BluetoothDevice,
 import se.nicklasgavelin.sphero.exception.{RobotBluetoothException, InvalidRobotAddressException}
 import se.nicklasgavelin.sphero.Robot
 
-class SpheroController {
+class SpheroController extends Sphero {
 
   private var maybeRobot: Option[Robot] = None
-  private def robot = maybeRobot.getOrElse(throw new IllegalStateException("Robot not initialized!"))
+  def robot = maybeRobot.getOrElse(throw new IllegalStateException("Robot not initialized!"))
 
   private val btListener = new BluetoothDiscoveryListener {
     def deviceSearchCompleted(devices: util.Collection[BluetoothDevice]) {
