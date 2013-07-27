@@ -71,6 +71,6 @@ class SpheroController extends Sphero {
   }
 
   def setColor(r: Int, g: Int, b: Int) {
-
+    robot.setRGBLEDColor(r, g, b)
   }
 }
