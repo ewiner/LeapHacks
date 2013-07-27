@@ -1,3 +1,4 @@
+import java.io.{InputStreamReader, BufferedReader}
 import java.util
 import java.util.concurrent.CountDownLatch
 import se.nicklasgavelin.bluetooth.Bluetooth.EVENT
@@ -15,13 +16,17 @@ class SpheroController(val robot: Robot) extends Sphero {
     robot.stopMotors()
   }
 
-  def beginCalibration() {
+  def calibrate() {
     robot.setRotationRate(0.1.toFloat)
-    robot.rotate((robot.getRobotMovement().getHeading+170)%360)
-  }
-
-  def acceptCalibration() {
+    robot.setFrontLEDBrightness(255.toFloat)
+    val br:BufferedReader = new BufferedReader(new InputStreamReader(System.in))
+    while(!br.ready()){
+      robot.rotate((robot.getRobotMovement().getHeading+5)%360)
+      Thread.sleep(500)
+    }
+    br.readLine()
     robot.calibrate(robot.getRobotMovement().getHeading)
+    robot.setFrontLEDBrightness(0.toFloat)
     robot.setRotationRate(1)
   }
 

@@ -8,12 +8,8 @@ class FakeSphero extends Sphero {
     println("stop")
   }
 
-  def beginCalibration() {
-    println("beginCalibration")
-  }
-
-  def acceptCalibration() {
-    println("acceptCalibration")
+  def calibrate() {
+    println("Calibration")
   }
 
   def setColor(r: Int, g: Int, b: Int) {
