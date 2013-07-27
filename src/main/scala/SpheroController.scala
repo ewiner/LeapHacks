@@ -7,20 +7,27 @@ import se.nicklasgavelin.sphero.Robot
 
 class SpheroController(robot: Robot) extends Sphero {
 
-  // e.g.
-  def roll(heading: Int) {
-    robot.roll(0, 0)
+  def roll(velocity: Float, heading: Float) {
+    robot.roll(heading, velocity)
   }
 
-  def roll(velocity: Float, heading: Float) {}
+  def stop() {
+    robot.stopMotors()
+  }
 
-  def stop() {}
+  def beginCalibration() {
+    robot.setRotationRate(0.1)
+    robot.rotate((robot.getRobotMovement().getHeading+170)%360)
+  }
 
-  def beginCalibration() {}
+  def acceptCalibration() {
+    robot.calibrate(robot.getRobotMovement().getHeading)
+    robot.setRotationRate(1)
+  }
 
-  def acceptCalibration() {}
-
-  def setColor(r: Int, g: Int, b: Int) {}
+  def setColor(r: Int, g: Int, b: Int) {
+    robot.setRGBLEDColor(r, g, b)
+  }
 }
 
 object SpheroController {
@@ -60,7 +67,9 @@ object SpheroController {
       }
     }
 
-    def deviceSearchFailed(p1: EVENT) {}
+    def deviceSearchFailed(p1: EVENT) {
+      println("Error message: "+p1.getErrorMessage)
+    }
 
     def deviceSearchStarted() {
       println("Searching for Bluetooth devices...")
