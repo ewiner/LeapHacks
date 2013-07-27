@@ -41,9 +41,7 @@ class ConnectThread extends BluetoothDiscoveryListener with RobotListener {
   var robot:Robot = null
 
   def run(){
-
     this.bt.discover()
-
   }
 
   def deviceSearchCompleted(devices: java.util.Collection[se.nicklasgavelin.bluetooth.BluetoothDevice]) {
@@ -83,8 +81,6 @@ class ConnectThread extends BluetoothDiscoveryListener with RobotListener {
   def event(p1: Robot, p2: EVENT_CODE) {}
 
   def informationResponseReceived(p1: Robot, p2: InformationResponseMessage) {}
-
-  def deviceSearchCompleted(p1: Nothing) {}
 
   def deviceDiscovered(p1: BluetoothDevice) {}
 
