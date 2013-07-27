@@ -7,15 +7,27 @@ import se.nicklasgavelin.sphero.Robot
 
 class SpheroController(val robot: Robot) extends Sphero {
 
-  def roll(velocity: Float, heading: Float) {}
+  def roll(velocity: Float, heading: Float) {
+    robot.roll(heading, velocity)
+  }
 
-  def stop() {}
+  def stop() {
+    robot.stopMotors()
+  }
 
-  def beginCalibration() {}
+  def beginCalibration() {
+    robot.setRotationRate(0.1.toFloat)
+    robot.rotate((robot.getRobotMovement().getHeading+170)%360)
+  }
 
-  def acceptCalibration() {}
+  def acceptCalibration() {
+    robot.calibrate(robot.getRobotMovement().getHeading)
+    robot.setRotationRate(1)
+  }
 
-  def setColor(r: Int, g: Int, b: Int) {}
+  def setColor(r: Int, g: Int, b: Int) {
+    robot.setRGBLEDColor(r, g, b)
+  }
 
   def disconnect() {
     robot.disconnect()
