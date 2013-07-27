@@ -1,8 +1,10 @@
 import com.leapmotion.leap.{Controller, Listener}
 
 class LeapListener extends Listener {
-  override def onFrame(p1: Controller) {
-    val fings = p1.frame().fingers().count()
-    println(s"Fingers: $fings")
+  override def onFrame(leap: Controller) {
+    val hand = leap.frame.hands.rightmost()
+    if (hand != null) {
+       println(s"Vector: ${hand.palmNormal}")
+    }
   }
 }
