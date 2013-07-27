@@ -16,7 +16,7 @@ class SpheroController(robot: Robot) extends Sphero {
   }
 
   def beginCalibration() {
-    robot.setRotationRate(0.1)
+    robot.setRotationRate(0.1.toFloat)
     robot.rotate((robot.getRobotMovement().getHeading+170)%360)
   }
 
