@@ -57,4 +57,14 @@ class SpheroController extends Sphero {
   def roll(heading: Int) {
     robot.roll(0, 0)
   }
+
+  def roll(velocity: Float, heading: Float) {}
+
+  def stop() {}
+
+  def beginCalibration() {}
+
+  def acceptCalibration() {}
+
+  def setColor(r: Int, g: Int, b: Int) {}
 }
