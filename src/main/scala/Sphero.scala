@@ -1,3 +1,7 @@
 trait Sphero {
-  def roll(heading: Int)
+  def roll(velocity: Float, heading: Float)
+  def stop()
+  def beginCalibration()
+  def acceptCalibration()
+  def setColor(r:Int, g:Int, b:Int)
 }
