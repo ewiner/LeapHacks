@@ -10,8 +10,12 @@ class LeapListener(sphero: Sphero) extends Listener {
       val y = Vector.yAxis()
 
       val projection = normal minus (y times (normal dot y))
+      val magnitude = projection.magnitude
+      val angle = (if (normal.roll > 0)
+        projection angleTo (Vector.zAxis opposite)
+      else math.Pi + (math.Pi - (projection angleTo (Vector.zAxis opposite)))).toDegrees.toFloat
 
-      println(s"Magnitude, Angle: ${projection.magnitude}, ${projection angleTo Vector.xAxis}")
+      sphero.roll(magnitude,angle)
     }
   }
 }

@@ -2,6 +2,8 @@ import com.leapmotion.leap.Controller
 
 object Program {
 
+
+
   def main(args: Array[String]) {
     println("Hello!  Connecting to Sphero...")
     val sphero: Sphero = SpheroController.connect().getOrElse{
