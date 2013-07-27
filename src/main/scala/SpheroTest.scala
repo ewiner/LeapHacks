@@ -24,18 +24,27 @@ object SpheroTest {
     val ct = new ConnectThread
     ct.run()
   }
+
+  def getRobot():Robot = {
+    val ct = new ConnectThread
+    ct.run()
+    while(ct.robot == null){
+      Thread.sleep(100)
+    }
+    return ct.robot
+  }
 }
 
 class ConnectThread extends BluetoothDiscoveryListener with RobotListener {
 
   var bt:Bluetooth = new Bluetooth( this, Bluetooth.SERIAL_COM )
+  var robot:Robot = null
 
   def run(){
 
     this.bt.discover()
 
   }
-
 
   def deviceSearchCompleted(devices: java.util.Collection[se.nicklasgavelin.bluetooth.BluetoothDevice]) {
     import scala.collection.JavaConverters._
@@ -53,6 +62,7 @@ class ConnectThread extends BluetoothDiscoveryListener with RobotListener {
             println(s"Connected to ${d.getName} : ${d.getAddress}")
             r.rgbTransition(255, 0, 0, 0, 255, 255, 50)
             r.sendCommand(new FrontLEDCommand(1))
+            robot = r
           }
           else println("Failed to connect to robot")
         }
